@@ -7,6 +7,7 @@
 #endif
 
 #include "php.h"
+#include "Zend/zend_types.h"
 #include "php_rocksdb.h"
 #include "rocksdb_exception.h"
 #include "rocksdb_cls.h"
@@ -15,12 +16,8 @@
 zend_class_entry *rocksdb_class_ce;
 zend_object_handlers rocksdb_object_handlers;
 
-static inline ROCKSDB_CLS *php_rocksdb_fetch_object(rocksdb_class_free_object_arg *object) {
-	return (ROCKSDB_CLS *)((char*)(object) - XtOffsetOf(ROCKSDB_CLS, zo));
-}
-
-static void rocksdb_object_destroy(rocksdb_class_free_object_arg *object) {
-	ROCKSDB_CLS *obj = php_rocksdb_fetch_object(object);
+static void rocksdb_object_destroy(rocksdb_class_object_arg *object) {
+	ROCKSDB_CLS *obj = (ROCKSDB_CLS *)(object);
 	if (obj->zo.properties) {
 		zend_hash_destroy(obj->zo.properties);
 		FREE_HASHTABLE(obj->zo.properties);
@@ -31,7 +28,6 @@ static void rocksdb_object_destroy(rocksdb_class_free_object_arg *object) {
 	zend_object_std_dtor(&(obj->zo));
 	efree(obj);
 }
-
 
 static rocksdb_class_create_object_retval rocksdb_create_object(zend_class_entry *class_type) {
 	ROCKSDB_CLS *obj;
