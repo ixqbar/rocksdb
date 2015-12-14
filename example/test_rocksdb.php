@@ -10,3 +10,4 @@ var_dump($result);
 $result = $rocksdb_handle->delete('name');
 var_dump($result);
 
+$rocksdb_handle->close();

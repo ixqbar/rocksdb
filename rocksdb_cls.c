@@ -198,6 +198,7 @@ PHP_METHOD(rocksdb_cls, close) {
 
 	if (obj->db) {
 		rocksdb_close(obj->db);
+		obj->db = NULL;
 	}
 }
 
@@ -206,7 +207,7 @@ zend_function_entry rocksdb_class_methods[] = {
 	PHP_ME(rocksdb_cls, get,         rocksdb_class_get_arginfo,        ZEND_ACC_PUBLIC)
 	PHP_ME(rocksdb_cls, set,         rocksdb_class_set_arginfo,        ZEND_ACC_PUBLIC)
 	PHP_ME(rocksdb_cls, delete,      rocksdb_class_delete_arginfo,     ZEND_ACC_PUBLIC)
-	PHP_ME(rocksdb_cls, close,       NULL,     						 ZEND_ACC_PUBLIC)
+	PHP_ME(rocksdb_cls, close,       NULL,     						   ZEND_ACC_PUBLIC)
 	{NULL, NULL, NULL}
 };
 
