@@ -107,9 +107,11 @@ PHP_METHOD(rocksdb_cls, set) {
 	char *k, *v;
 	size_t kl = 0, vl = 0;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS(), "ss", &k, &kl, &v, &vl) == FAILURE
-			|| kl == 0
-			|| vl == 0) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "ss", &k, &kl, &v, &vl) == FAILURE) {
+		RETURN_FALSE;
+	}
+
+	if (kl == 0) {
 		rocksdb_throw_exception(1, "set params invalid");
 		RETURN_FALSE;
 	}
@@ -135,9 +137,12 @@ PHP_METHOD(rocksdb_cls, get) {
 	char *k;
 	size_t kl = 0, vl = 0;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS(), "s", &k, &kl) == FAILURE
-			|| kl == 0) {
-		rocksdb_throw_exception(1, "set params invalid");
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "s", &k, &kl) == FAILURE) {
+		RETURN_FALSE;
+	}
+
+	if (kl == 0) {
+		rocksdb_throw_exception(1, "get params invalid");
 		RETURN_FALSE;
 	}
 
@@ -166,9 +171,12 @@ PHP_METHOD(rocksdb_cls, delete) {
 	char *k;
 	size_t kl = 0;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS(), "s", &k, &kl) == FAILURE
-			|| kl == 0) {
-		rocksdb_throw_exception(1, "set params invalid");
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "s", &k, &kl) == FAILURE) {
+		RETURN_FALSE;
+	}
+
+	if (kl == 0) {
+		rocksdb_throw_exception(1, "delete params invalid");
 		RETURN_FALSE;
 	}
 
